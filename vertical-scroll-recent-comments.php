@@ -60,7 +60,7 @@ function vsrc()
 	$vsrc_html = "";
 	$post_link = "";
 	$avatar = "";
-	$vsrc_x = "";
+	$vsrc_x = [];
 	if ( ! empty($vsrc_data) ) 
 	{
 		$vsrc_count = 0;
@@ -92,7 +92,7 @@ function vsrc()
 			$post_link    = get_permalink($vsrc_data->comment_post_ID);
 			$comment_link = $post_link ."#comment-$vsrc_data->comment_ID";
 			$vsrc_post_title = "<a href=\'$comment_link\'>$vsrc_post_title ...</a>";
-			$vsrc_x = $vsrc_x . "vsrc_array[$vsrc_count] = '<div class=\'vsrc_div\' style=\'height:$dis_height;padding:2px 0px 2px 0px;\'>$vsrc_js_html<span>$vsrc_post_title</span></div>'; ";	
+			$vsrc_x[] = "<div class='vsrc_div' style='height:$dis_height;padding:2px 0px 2px 0px;'>$vsrc_js_html<span>$vsrc_post_title</span></div>";
 			$vsrc_count++;
 		}
 
@@ -127,7 +127,7 @@ function vsrc()
 		var vsrc_scrollOn 	= 'true';
 		function vsrc_createscroll() 
 		{
-			<?php echo $vsrc_x; ?>
+			vsrc_array = <?php echo json_encode($vsrc_x); ?>
 			vsrc_obj = document.getElementById('vsrc_Holder');
 			vsrc_obj.style.height = (vsrc_numberOfElm * vsrc_heightOfElm) + 'px';
 			vsrc_content();
