@@ -57,10 +57,8 @@ function vsrc()
 
 	$vsrc_data = $wpdb->get_results("SELECT * from $wpdb->comments WHERE comment_approved= '1' and comment_type<>'pingback' ORDER BY comment_date DESC LIMIT 0, $num_user");
 
-	$vsrc_html = "";
-	$post_link = "";
-	$avatar = "";
-	$vsrc_x = [];
+	$vsrc_html_list = [];
+	$vsrc_js_list = [];
 	if ( ! empty($vsrc_data) ) 
 	{
 		$vsrc_count = 0;
@@ -74,7 +72,7 @@ function vsrc()
 			$vsrc_post_title = substr($vsrc_post_title, 0, $vsrc_select_character);
 			$avatar = get_avatar( $vsrc_data->comment_author_email, 30 );
 			$dis_height = $dis_num_height."px";
-			$vsrc_html = $vsrc_html . "<div class='vsrc_div' style='height:$dis_height;padding:2px 0px 2px 0px;'>"; 
+			$vsrc_html = "<div class='vsrc_div' style='height:$dis_height;padding:2px 0px 2px 0px;'>"; 
 			if(get_option('vsrc_dis_image_or_name') == "NAME" )
 			{
 				$vsrc_html = $vsrc_html . "<span>$vsrc_comment_author: </span>";
@@ -88,11 +86,12 @@ function vsrc()
 			}
 			$vsrc_html = $vsrc_html . "<span>$vsrc_post_title...</span>";
 			$vsrc_html = $vsrc_html . "</div>";
+			$vsrc_html_list[] = $vsrc_html;
 			$vsrc_post_title = esc_sql(trim($vsrc_post_title));
 			$post_link    = get_permalink($vsrc_data->comment_post_ID);
 			$comment_link = $post_link ."#comment-$vsrc_data->comment_ID";
 			$vsrc_post_title = "<a href=\'$comment_link\'>$vsrc_post_title ...</a>";
-			$vsrc_x[] = "<div class='vsrc_div' style='height:$dis_height;padding:2px 0px 2px 0px;'>$vsrc_js_html<span>$vsrc_post_title</span></div>";
+			$vsrc_js_list[] = "<div class='vsrc_div' style='height:$dis_height;padding:2px 0px 2px 0px;'>$vsrc_js_html<span>$vsrc_post_title</span></div>";
 			$vsrc_count++;
 		}
 
@@ -111,7 +110,7 @@ function vsrc()
 		?>	
 		<div style="padding-top:8px;padding-bottom:8px;">
 			<div style="text-align:left;vertical-align:middle;text-decoration: none;overflow: hidden; position: relative; margin-left: 1px; height: <?php echo $vsrc_height1; ?>;" id="vsrc_Holder">
-				<?php echo $vsrc_html; ?>
+				<?php echo implode("", $vsrc_html_list); ?>
 			</div>
 		</div>
 		<script type="text/javascript" src="<?php echo plugins_url(); ?>/vertical-scroll-recent-comments/vertical-scroll-recent-comments.js"></script>
@@ -127,7 +126,7 @@ function vsrc()
 		var vsrc_scrollOn 	= 'true';
 		function vsrc_createscroll() 
 		{
-			vsrc_array = <?php echo json_encode($vsrc_x); ?>
+			vsrc_array = <?php echo json_encode($vsrc_js_list); ?>
 			vsrc_obj = document.getElementById('vsrc_Holder');
 			vsrc_obj.style.height = (vsrc_numberOfElm * vsrc_heightOfElm) + 'px';
 			vsrc_content();
