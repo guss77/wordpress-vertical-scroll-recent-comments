@@ -131,7 +131,7 @@ function vsrc_clean_post_title($comment, $vsrc_select_character) {
 function vsrc_format_html_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character) {
 	ob_start();
 	?>
-	<div class="vsrc_div" style="height:<?php echo $dis_height?>px;padding:2px 0px 2px 0px;">
+	<div class="vsrc_div" style="height:<?php echo $dis_num_height?>px;padding:2px 0px 2px 0px;">
 		<?php if ($vsrc_dis_type == 'NAME'): ?>
 		<span><?php echo $comment->comment_author?>: </span>
 		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
