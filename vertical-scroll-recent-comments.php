@@ -32,6 +32,7 @@ function vsrc()
 	$dis_num_user = get_option('vsrc_dis_num_user');
 	$dis_num_height = get_option('vsrc_dis_num_height');
 	$vsrc_select_character = get_option('vsrc_select_character');
+	$vsrc_dis_type = get_option('vsrc_dis_image_or_name');
 	
 	$vsrc_speed = get_option('vsrc_speed');
 	$vsrc_waitseconds = get_option('vsrc_waitseconds');
@@ -65,33 +66,9 @@ function vsrc()
 
 		foreach ( $vsrc_data as $vsrc_data ) 
 		{
-			$vsrc_post_title = $vsrc_data->comment_content 	;
-			$vsrc_post_title = strip_tags($vsrc_post_title);
-			$vsrc_post_title = preg_replace("/[\n\t\r]/"," ",$vsrc_post_title);
-			$vsrc_comment_author = $vsrc_data->comment_author 	;
-			$vsrc_post_title = substr($vsrc_post_title, 0, $vsrc_select_character);
 			$avatar = get_avatar( $vsrc_data->comment_author_email, 30 );
-			$dis_height = $dis_num_height."px";
-			$vsrc_html = "<div class='vsrc_div' style='height:$dis_height;padding:2px 0px 2px 0px;'>"; 
-			if(get_option('vsrc_dis_image_or_name') == "NAME" )
-			{
-				$vsrc_html = $vsrc_html . "<span>$vsrc_comment_author: </span>";
-				$vsrc_js_html = "<span>$vsrc_comment_author: </span>";
-			}
-			elseif(get_option('vsrc_dis_image_or_name') == "IMAGE")
-			{
-				$vsrc_html = $vsrc_html . "<span class='vsrc-regimag'>$avatar</span>";
-				$avatar = esc_sql($avatar);
-				$vsrc_js_html = "<span class=\'vsrc-regimag\'>$avatar</span>";
-			}
-			$vsrc_html = $vsrc_html . "<span>$vsrc_post_title...</span>";
-			$vsrc_html = $vsrc_html . "</div>";
-			$vsrc_html_list[] = $vsrc_html;
-			$vsrc_post_title = esc_sql(trim($vsrc_post_title));
-			$post_link    = get_permalink($vsrc_data->comment_post_ID);
-			$comment_link = $post_link ."#comment-$vsrc_data->comment_ID";
-			$vsrc_post_title = "<a href=\'$comment_link\'>$vsrc_post_title ...</a>";
-			$vsrc_js_list[] = "<div class='vsrc_div' style='height:$dis_height;padding:2px 0px 2px 0px;'>$vsrc_js_html<span>$vsrc_post_title</span></div>";
+			$vsrc_html_list[] = vsrc_format_html_comment($vsrc_data, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
+			$vsrc_js_list[] = vsrc_format_js_comment($vsrc_data, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
 			$vsrc_count++;
 		}
 
@@ -141,6 +118,45 @@ function vsrc()
 	{
 		echo "<div style='padding-bottom:5px;padding-top:5px;'>No data available!</div>";
 	}
+}
+
+function vsrc_clean_post_title($comment, $vsrc_select_character) {
+	$vsrc_post_title = $comment->comment_content;
+	$vsrc_post_title = strip_tags($vsrc_post_title);
+	$vsrc_post_title = preg_replace("/[\n\t\r]/"," ",$vsrc_post_title);
+	$vsrc_post_title = substr($vsrc_post_title, 0, $vsrc_select_character);
+	$vsrc_post_title = trim($vsrc_post_title);
+}
+
+function vsrc_format_html_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character) {
+	ob_start();
+	?>
+	<div class="vsrc_div" style="height:<?php echo $dis_height?>px;padding:2px 0px 2px 0px;">
+		<?php if ($vsrc_dis_type == 'NAME'): ?>
+		<span><?php echo $comment->comment_author?>: </span>
+		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
+		<span class="vsrc-regimag"><?php echo $avatar?></span>
+		<?php endif ?>
+		<span><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?>...</span>
+	</div>
+	<?php
+	return ob_get_clean();
+}
+
+function vsrc_format_js_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character) {
+	$comment_link = get_permalink($comment->comment_post_ID) . "#comment-". $comment->comment_ID;
+	ob_start();
+	?>
+	<div class="vsrc_div" style="height:<?php echo $dis_num_height?>px;padding:2px 0px 2px 0px;">
+		<?php if ($vsrc_dis_type == 'NAME'): ?>
+		<span><?php echo $comment->comment_author?>: </span>
+		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
+		<span class="vsrc-regimag"><?php echo $avatar?></span>
+		<?php endif ?>
+		<span><a href="<?php echo $comment_link?>"><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?> ...</a></span>
+	</div>
+	<?php
+	return ob_get_clean();
 }
 
 function vsrc_install() 
