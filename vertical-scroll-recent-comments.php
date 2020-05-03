@@ -116,8 +116,7 @@ function vsrc()
 	}
 }
 
-function vsrc_clean_post_title($comment, $maxlength) {
-	$vsrc_post_title = $comment->comment_content;
+function vsrc_clean_title($vsrc_post_title, $maxlength) {
 	$vsrc_post_title = strip_tags($vsrc_post_title);
 	$vsrc_post_title = preg_replace("/[\n\t\r]/"," ",$vsrc_post_title);
 	$substrfn = function_exists('mb_substr') ? 'mb_substr' : 'substr';
@@ -130,7 +129,7 @@ function vsrc_clean_post_title($comment, $maxlength) {
 	}
 }
 
-function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character) {
+function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $maxlength) {
 	$comment_link = get_permalink($comment->comment_post_ID) . "#comment-". $comment->comment_ID;
 	ob_start();
 	?>
@@ -140,7 +139,7 @@ function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height,
 		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
 		<span class="vsrc-regimag"><?php echo $avatar?></span>
 		<?php endif ?>
-		<span><a href="<?php echo $comment_link?>"><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?></a></span>
+		<span><a href="<?php echo $comment_link?>"><?php echo vsrc_clean_title($comment->comment_content, $maxlength)?></a></span>
 	</div>
 	<?php
 	return apply_filters('vsrc_format_comment', ob_get_clean(), $comment, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
