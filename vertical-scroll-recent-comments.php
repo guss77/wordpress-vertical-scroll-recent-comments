@@ -58,20 +58,16 @@ function vsrc()
 
 	$vsrc_data = $wpdb->get_results("SELECT * from $wpdb->comments WHERE comment_approved= '1' and comment_type<>'pingback' ORDER BY comment_date DESC LIMIT 0, $num_user");
 
-	$vsrc_html_list = [];
-	$vsrc_js_list = [];
+	$vsrc_comments = [];
 	if ( ! empty($vsrc_data) ) 
 	{
-		$vsrc_count = 0;
-
 		foreach ( $vsrc_data as $vsrc_data ) 
 		{
 			$avatar = get_avatar( $vsrc_data->comment_author_email, 30 );
-			$vsrc_html_list[] = vsrc_format_html_comment($vsrc_data, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
-			$vsrc_js_list[] = vsrc_format_js_comment($vsrc_data, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
-			$vsrc_count++;
+			$vsrc_comments[] = vsrc_format_comment($vsrc_data, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
 		}
 
+		$vsrc_count = count($vsrc_comments);
 		$dis_num_height = $dis_num_height + 4;
 		if($vsrc_count >= $dis_num_user)
 		{
@@ -87,7 +83,7 @@ function vsrc()
 		?>	
 		<div style="padding-top:8px;padding-bottom:8px;">
 			<div style="text-align:left;vertical-align:middle;text-decoration: none;overflow: hidden; position: relative; margin-left: 1px; height: <?php echo $vsrc_height1; ?>;" id="vsrc_Holder">
-				<?php echo implode("", $vsrc_html_list); ?>
+				<?php echo implode("", $vsrc_comments); ?>
 			</div>
 		</div>
 		<script type="text/javascript" src="<?php echo plugins_url(); ?>/vertical-scroll-recent-comments/vertical-scroll-recent-comments.js"></script>
@@ -103,7 +99,7 @@ function vsrc()
 		var vsrc_scrollOn 	= 'true';
 		function vsrc_createscroll() 
 		{
-			vsrc_array = <?php echo json_encode($vsrc_js_list); ?>
+			vsrc_array = <?php echo json_encode($vsrc_comments); ?>
 			vsrc_obj = document.getElementById('vsrc_Holder');
 			vsrc_obj.style.height = (vsrc_numberOfElm * vsrc_heightOfElm) + 'px';
 			vsrc_content();
@@ -128,22 +124,7 @@ function vsrc_clean_post_title($comment, $vsrc_select_character) {
 	$vsrc_post_title = trim($vsrc_post_title);
 }
 
-function vsrc_format_html_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character) {
-	ob_start();
-	?>
-	<div class="vsrc_div" style="height:<?php echo $dis_num_height?>px;padding:2px 0px 2px 0px;">
-		<?php if ($vsrc_dis_type == 'NAME'): ?>
-		<span><?php echo $comment->comment_author?>: </span>
-		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
-		<span class="vsrc-regimag"><?php echo $avatar?></span>
-		<?php endif ?>
-		<span><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?>...</span>
-	</div>
-	<?php
-	return ob_get_clean();
-}
-
-function vsrc_format_js_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character) {
+function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character) {
 	$comment_link = get_permalink($comment->comment_post_ID) . "#comment-". $comment->comment_ID;
 	ob_start();
 	?>
@@ -153,7 +134,7 @@ function vsrc_format_js_comment($comment, $avatar, $vsrc_dis_type, $dis_num_heig
 		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
 		<span class="vsrc-regimag"><?php echo $avatar?></span>
 		<?php endif ?>
-		<span><a href="<?php echo $comment_link?>"><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?> ...</a></span>
+		<span><a href="<?php echo $comment_link?>"><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?>...</a></span>
 	</div>
 	<?php
 	return ob_get_clean();
