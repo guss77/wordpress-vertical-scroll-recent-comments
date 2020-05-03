@@ -95,7 +95,7 @@ function vsrc()
 		var vsrc_heightOfElm = '<?php echo $dis_num_height; ?>';
 		var vsrc_numberOfElm = '<?php echo $vsrc_count; ?>';
 		var vsrc_speed 		= '<?php echo $vsrc_speed; ?>';
-        var vsrc_waitseconds = '<?php echo $vsrc_waitseconds; ?>';
+		var vsrc_waitseconds = '<?php echo $vsrc_waitseconds; ?>';
 		var vsrc_scrollOn 	= 'true';
 		function vsrc_createscroll() 
 		{
