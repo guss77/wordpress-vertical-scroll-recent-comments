@@ -127,6 +127,7 @@ function vsrc_clean_title($vsrc_post_title, $maxlength) {
 		$vsrc_post_title = preg_replace('/\s+\S*$/u',"",$vsrc_post_title); // remove broken word if we broke it, otherwise we just remove the extra white space
 		$vsrc_post_title .= '…';
 	}
+	return $vsrc_post_title;
 }
 
 function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $maxlength) {
