@@ -116,13 +116,18 @@ function vsrc()
 	}
 }
 
-function vsrc_clean_post_title($comment, $vsrc_select_character) {
+function vsrc_clean_post_title($comment, $maxlength) {
 	$vsrc_post_title = $comment->comment_content;
 	$vsrc_post_title = strip_tags($vsrc_post_title);
 	$vsrc_post_title = preg_replace("/[\n\t\r]/"," ",$vsrc_post_title);
 	$substrfn = function_exists('mb_substr') ? 'mb_substr' : 'substr';
-	$vsrc_post_title = $substrfn($vsrc_post_title, 0, $vsrc_select_character);
+	$strlenfn = function_exists('mb_strlen') ? 'mb_strlen' : 'strlen';
 	$vsrc_post_title = trim($vsrc_post_title);
+	if ($strlenfn($vsrc_post_title) > $maxlength) {
+		$vsrc_post_title = $substrfn($vsrc_post_title, 0, $maxlength + 1); // grab an additional char which might be a whitepace
+		$vsrc_post_title = preg_replace("/\s+\S*/u","",$vsrc_post_title); // remove broken word if we broke it, otherwise we just remove the extra white space
+		$vsrc_post_title .= '…';
+	}
 }
 
 function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character) {
@@ -135,7 +140,7 @@ function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height,
 		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
 		<span class="vsrc-regimag"><?php echo $avatar?></span>
 		<?php endif ?>
-		<span><a href="<?php echo $comment_link?>"><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?>...</a></span>
+		<span><a href="<?php echo $comment_link?>"><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?></a></span>
 	</div>
 	<?php
 	return apply_filters('vsrc_format_comment', ob_get_clean(), $comment, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
