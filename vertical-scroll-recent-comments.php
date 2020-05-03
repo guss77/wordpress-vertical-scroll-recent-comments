@@ -99,7 +99,7 @@ function vsrc()
 		var vsrc_scrollOn 	= 'true';
 		function vsrc_createscroll() 
 		{
-			vsrc_array = <?php echo json_encode($vsrc_comments); ?>
+			vsrc_array = <?php echo json_encode($vsrc_comments) ?>;
 			vsrc_obj = document.getElementById('vsrc_Holder');
 			vsrc_obj.style.height = (vsrc_numberOfElm * vsrc_heightOfElm) + 'px';
 			vsrc_content();
