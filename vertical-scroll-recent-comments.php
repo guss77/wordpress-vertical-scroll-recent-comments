@@ -125,7 +125,7 @@ function vsrc_clean_post_title($comment, $maxlength) {
 	$vsrc_post_title = trim($vsrc_post_title);
 	if ($strlenfn($vsrc_post_title) > $maxlength) {
 		$vsrc_post_title = $substrfn($vsrc_post_title, 0, $maxlength + 1); // grab an additional char which might be a whitepace
-		$vsrc_post_title = preg_replace("/\s+\S*/u","",$vsrc_post_title); // remove broken word if we broke it, otherwise we just remove the extra white space
+		$vsrc_post_title = preg_replace('/\s+\S*$/u',"",$vsrc_post_title); // remove broken word if we broke it, otherwise we just remove the extra white space
 		$vsrc_post_title .= '…';
 	}
 }
