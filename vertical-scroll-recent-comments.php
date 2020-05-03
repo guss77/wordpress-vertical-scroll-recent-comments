@@ -137,7 +137,7 @@ function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height,
 		<span><a href="<?php echo $comment_link?>"><?php echo vsrc_clean_post_title($comment, $vsrc_select_character)?>...</a></span>
 	</div>
 	<?php
-	return ob_get_clean();
+	return apply_filters('vsrc_format_comment', ob_get_clean(), $comment, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
 }
 
 function vsrc_install() 
