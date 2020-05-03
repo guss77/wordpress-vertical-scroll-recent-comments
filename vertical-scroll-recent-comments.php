@@ -120,7 +120,8 @@ function vsrc_clean_post_title($comment, $vsrc_select_character) {
 	$vsrc_post_title = $comment->comment_content;
 	$vsrc_post_title = strip_tags($vsrc_post_title);
 	$vsrc_post_title = preg_replace("/[\n\t\r]/"," ",$vsrc_post_title);
-	$vsrc_post_title = substr($vsrc_post_title, 0, $vsrc_select_character);
+	$substrfn = function_exists('mb_substr') ? 'mb_substr' : 'substr';
+	$vsrc_post_title = $substrfn($vsrc_post_title, 0, $vsrc_select_character);
 	$vsrc_post_title = trim($vsrc_post_title);
 }
 
