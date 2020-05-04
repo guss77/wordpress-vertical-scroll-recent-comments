@@ -18,6 +18,7 @@
  */	
  
 function vsrc_scroll() {
+	clearTimeout(window.vsrc_scroll_timer);
 	vsrc_obj.scrollTop = vsrc_obj.scrollTop + 1;
 	vsrc_scrollPos++;
 	if ((vsrc_scrollPos%vsrc_heightOfElm) == 0) {
@@ -32,7 +33,7 @@ function vsrc_scroll() {
 		}
 	} else {
 		var speed = 60 - ( vsrc_speed * 10 );
-		setTimeout("vsrc_scroll();", speed);
+		window.vsrc_scroll_timer = setTimeout("vsrc_scroll();", speed);
 	}
 }
 
@@ -66,7 +67,7 @@ function vsrc_content() {
 	vsrc_numScrolls 	= vsrc_array.length;
 	vsrc_obj.scrollTop 	= '0';
 	// start scrolling
-	setTimeout("vsrc_scroll();", vsrc_waitseconds * 1000);
+	window.vsrc_scroll_timer = setTimeout("vsrc_scroll();", vsrc_waitseconds * 1000);
 }
 
 jQuery(document).ready(function($) {
