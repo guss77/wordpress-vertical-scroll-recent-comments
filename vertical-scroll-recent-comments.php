@@ -17,17 +17,6 @@ Domain Path: /languages
 function vsrc() 
 {
 	global $wpdb;
-	?>
-    <style type="text/css">
-	.vsrc-regimag img { 
-	float: left ;
-	border: 1px solid #CCCCCC ;
-	vertical-align:bottom; 
-	padding: 3px ;
-	margin-right: 2px;
-	};
-    </style>
-    <?php
 	$num_user = get_option('vsrc_select_num_user');
 	$dis_num_user = get_option('vsrc_dis_num_user');
 	$dis_num_height = get_option('vsrc_dis_num_height');
@@ -81,8 +70,8 @@ function vsrc()
 		}
 		$vsrc_height1 = $dis_num_height."px";
 		?>	
-		<div style="padding-top:8px;padding-bottom:8px;">
-			<div style="text-align:left;vertical-align:middle;text-decoration: none;overflow: hidden; position: relative; margin-left: 1px; height: <?php echo $vsrc_height1; ?>;" id="vsrc_Holder">
+		<div class="vsrc-holder-parent">
+			<div style="height: <?php echo $vsrc_height1; ?>;" id="vsrc_Holder">
 				<?php echo implode("", $vsrc_comments); ?>
 			</div>
 		</div>
@@ -112,7 +101,7 @@ function vsrc()
 	}
 	else
 	{
-		echo "<div style='padding-bottom:5px;padding-top:5px;'>No data available!</div>";
+		?><div class="vsrc-holder-parent">No data available!</div><?php
 	}
 }
 
@@ -134,7 +123,7 @@ function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height,
 	$comment_link = get_permalink($comment->comment_post_ID) . "#comment-". $comment->comment_ID;
 	ob_start();
 	?>
-	<div class="vsrc_div" style="height:<?php echo $dis_num_height?>px;padding:2px 0px 2px 0px;">
+	<div class="vsrc_div" style="height:<?php echo $dis_num_height?>px;">
 		<?php if ($vsrc_dis_type == 'NAME'): ?>
 		<span><?php echo $comment->comment_author?>: </span>
 		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
@@ -308,7 +297,7 @@ function vsrc_init()
 	{
 		wp_register_widget_control('vertical-scroll-recent-comments', 
 					array( __('Vertical scroll recent comments', 'vertical-scroll-recent-comments'), 'widgets'), 'vsrc_control');
-	} 
+	}
 }
 
 function vsrc_add_to_menu()
@@ -336,4 +325,7 @@ add_action('plugins_loaded', 'vsrc_textdomain');
 add_action("plugins_loaded", "vsrc_init");
 register_activation_hook(__FILE__, 'vsrc_install');
 register_deactivation_hook(__FILE__, 'vsrc_deactivation');
-?>
+
+add_action('wp_enqueue_scripts', function(){
+	wp_enqueue_style('vertical-scroll-recent-comments-style', plugins_url('vertical-scroll-recent-comment.css', __FILE__), [], '11.8-20200504');
+}, PHP_INT_MAX);
