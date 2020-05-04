@@ -78,7 +78,7 @@ function vsrc()
 	}
 	else
 	{
-		?><div class="vsrc-holder-parent">No data available!</div><?php
+		?><div class="vsrc-holder-parent"><?php _e('No data available!', 'vertical-scroll-recent-comments')?></div><?php
 	}
 }
 

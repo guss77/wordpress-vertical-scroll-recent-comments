@@ -1,8 +1,10 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Vertical scroll recent comments\n"
-"POT-Creation-Date: 2019-08-11 23:19+0800\n"
-"PO-Revision-Date: 2019-08-11 23:19+0800\n"
+"Project-Id-Version: Vertical scroll recent comments 11.8\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/vertical-scroll-"
+"recent-comments\n"
+"POT-Creation-Date: 2020-05-04 09:40:49+00:00\n"
+"PO-Revision-Date: 2020-05-04 09:40:49+00:00\n"
 "Last-Translator: \n"
 "Language-Team: www.gopiplus.com <www.gopiplus.com>\n"
 "MIME-Version: 1.0\n"
@@ -13,144 +15,172 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../vertical-scroll-recent-comments.php:162
-#: ../vertical-scroll-recent-comments.php:174
-#: ../vertical-scroll-recent-comments.php:302
-#: ../vertical-scroll-recent-comments.php:308
-#: ../vertical-scroll-recent-comments.php:314
-#: ../vertical-scroll-recent-comments.php:315
+#: vertical-scroll-recent-comments.php:81
+msgid "No data available!"
+msgstr ""
+
+#. #-#-#-#-#  vertical-scroll-recent-comments.pot (Vertical scroll recent comments 11.8)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: vertical-scroll-recent-comments.php:130
+#: vertical-scroll-recent-comments.php:142
+#: vertical-scroll-recent-comments.php:270
+#: vertical-scroll-recent-comments.php:276
+#: vertical-scroll-recent-comments.php:282
+#: vertical-scroll-recent-comments.php:283
 msgid "Vertical scroll recent comments"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:164
-#: ../vertical-scroll-recent-comments.php:282
+#: vertical-scroll-recent-comments.php:132
+#: vertical-scroll-recent-comments.php:250
 msgid "Check official website for more information"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:165
-#: ../vertical-scroll-recent-comments.php:283
+#: vertical-scroll-recent-comments.php:133
+#: vertical-scroll-recent-comments.php:251
 msgid "click here"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:213
+#: vertical-scroll-recent-comments.php:181
 msgid "Details successfully updated."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:231
+#: vertical-scroll-recent-comments.php:199
 msgid "Widget setting"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:233
+#: vertical-scroll-recent-comments.php:201
 msgid "Widget title"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:235
+#: vertical-scroll-recent-comments.php:203
 msgid "Please enter your widget title."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:237
+#: vertical-scroll-recent-comments.php:205
 msgid "Height"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:239
+#: vertical-scroll-recent-comments.php:207
 msgid ""
 "Please enter your height. If any overlap in the scroll at front end, <br /"
 ">You should arrange this height (increase/decrease this height)."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:241
+#: vertical-scroll-recent-comments.php:209
 msgid "Display count"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:243
+#: vertical-scroll-recent-comments.php:211
 msgid ""
 "Please enter your display count. Display number of comments at the same time "
 "in scroll."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:245
+#: vertical-scroll-recent-comments.php:213
 msgid "Scroll comment count"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:247
+#: vertical-scroll-recent-comments.php:215
 msgid ""
 "Please enter your scroll comment count. Enter max number of comments to "
 "scroll."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:249
+#: vertical-scroll-recent-comments.php:217
 msgid "Comments length"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:251
+#: vertical-scroll-recent-comments.php:219
 msgid ""
 "Please enter number of comment characters you like to display in the scroll."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:253
+#: vertical-scroll-recent-comments.php:221
 msgid "Display Options"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:254
+#: vertical-scroll-recent-comments.php:222
 msgid "Display name :"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:255
+#: vertical-scroll-recent-comments.php:223
 msgid "Display Avator :"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:256
+#: vertical-scroll-recent-comments.php:224
 msgid "None :"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:257
+#: vertical-scroll-recent-comments.php:225
 msgid "Please select your disply option."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:259
+#: vertical-scroll-recent-comments.php:227
 msgid "Scrolling speed"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:260
+#: vertical-scroll-recent-comments.php:228
 msgid "Slow"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:262
+#: vertical-scroll-recent-comments.php:230
 msgid "Fast"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:263
+#: vertical-scroll-recent-comments.php:231
 msgid "Select how fast you want the to scroll the items."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:265
+#: vertical-scroll-recent-comments.php:233
 msgid "Seconds to wait"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:267
+#: vertical-scroll-recent-comments.php:235
 msgid "How many seconds you want the wait to scroll"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:267
+#: vertical-scroll-recent-comments.php:235
 msgid "Example"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:270
+#: vertical-scroll-recent-comments.php:238
 msgid "Submit"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:271
+#: vertical-scroll-recent-comments.php:239
 msgid "Help"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:277
+#: vertical-scroll-recent-comments.php:245
 msgid "Plugin configuration option"
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:279
+#: vertical-scroll-recent-comments.php:247
 msgid "Add directly in to the theme using PHP code."
 msgstr ""
 
-#: ../vertical-scroll-recent-comments.php:280
+#: vertical-scroll-recent-comments.php:248
 msgid "Drag and drop the widget to your sidebar."
+msgstr ""
+
+#. #-#-#-#-#  vertical-scroll-recent-comments.pot (Vertical scroll recent comments 11.8)  #-#-#-#-#
+#. Plugin URI of the plugin/theme
+#. #-#-#-#-#  vertical-scroll-recent-comments.pot (Vertical scroll recent comments 11.8)  #-#-#-#-#
+#. Author URI of the plugin/theme
+msgid ""
+"http://www.gopiplus.com/work/2010/07/18/vertical-scroll-recent-comments/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Vertical scroll recent comments wordpress plugin will scroll the recent post "
+"comment vertically (bottom to top) in the widget."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Gopi Ramasamy"
+msgstr ""
+
+#. Tags of the plugin/theme
+msgid "Vertical, scroll, recent, comments, comment, widget"
 msgstr ""
