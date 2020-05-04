@@ -32,7 +32,8 @@ function vsrc()
 	if(!is_numeric($dis_num_user)) $dis_num_user = 5;
 	if(!is_numeric($vsrc_select_character)) $vsrc_select_character = 75;
 
-	$vsrc_data = $wpdb->get_results("SELECT * from $wpdb->comments WHERE comment_approved= '1' and comment_type<>'pingback' ORDER BY comment_date DESC LIMIT 0, $num_user");
+	$vsrc_data = $wpdb->get_results(
+		$wpdb->prepare("SELECT * from {$wpdb->comments} WHERE comment_approved='1' and comment_type<>'pingback' ORDER BY comment_date DESC LIMIT 0, %d", $num_user));
 
 	$vsrc_comments = [];
 	if ( ! empty($vsrc_data) ) 
