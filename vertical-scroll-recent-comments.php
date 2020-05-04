@@ -26,7 +26,7 @@ function vsrc()
 	$vsrc_waitseconds 	= get_option('vsrc_waitseconds');
 	
 	if(!is_numeric($vsrc_speed)) $vsrc_speed = 2;
-	if(!is_numeric($vsrc_waitseconds)) $vsrc_waitseconds = 2;
+	if(!is_numeric($vsrc_waitseconds)) $vsrc_waitseconds = 4;
 	if(!is_numeric($num_user)) $num_user = 5;
 	if(!is_numeric($dis_num_height)) $dis_num_height = 30;
 	if(!is_numeric($dis_num_user)) $dis_num_user = 5;
@@ -121,7 +121,7 @@ function vsrc_install()
 	add_option('vsrc_dis_image_or_name', "NAME");
 	add_option('vsrc_select_character', "50");
 	add_option('vsrc_speed', "2");
-	add_option('vsrc_waitseconds', "2");
+	add_option('vsrc_waitseconds', "4");
 }
 
 function vsrc_control() 

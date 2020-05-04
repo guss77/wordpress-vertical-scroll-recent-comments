@@ -66,7 +66,7 @@ function vsrc_content() {
 	vsrc_numScrolls 	= vsrc_array.length;
 	vsrc_obj.scrollTop 	= '0';
 	// start scrolling
-	setTimeout("vsrc_scroll();", vsrc_waitseconds * 2000);
+	setTimeout("vsrc_scroll();", vsrc_waitseconds * 1000);
 }
 
 jQuery(document).ready(function($) {
