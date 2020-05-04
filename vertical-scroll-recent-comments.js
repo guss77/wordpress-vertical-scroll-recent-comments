@@ -33,7 +33,7 @@ function vsrc_scroll() {
 		}
 	} else {
 		var speed = 60 - ( vsrc_speed * 10 );
-		window.vsrc_scroll_timer = setTimeout("vsrc_scroll();", speed);
+		window.vsrc_scroll_timer = setTimeout(vsrc_scroll, speed);
 	}
 }
 
@@ -67,7 +67,7 @@ function vsrc_content() {
 	vsrc_numScrolls 	= vsrc_array.length;
 	vsrc_obj.scrollTop 	= '0';
 	// start scrolling
-	window.vsrc_scroll_timer = setTimeout("vsrc_scroll();", vsrc_waitseconds * 1000);
+	window.vsrc_scroll_timer = setTimeout(vsrc_scroll, vsrc_waitseconds * 1000);
 }
 
 jQuery(document).ready(function($) {
