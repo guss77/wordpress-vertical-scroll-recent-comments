@@ -75,7 +75,6 @@ function vsrc()
 				<?php echo implode("", $vsrc_comments); ?>
 			</div>
 		</div>
-		<script type="text/javascript" src="<?php echo plugins_url(); ?>/vertical-scroll-recent-comments/vertical-scroll-recent-comments.js"></script>
 		<script type="text/javascript">
 		var vsrc_array	= new Array();
 		var vsrc_obj	= '';
@@ -328,4 +327,5 @@ register_deactivation_hook(__FILE__, 'vsrc_deactivation');
 
 add_action('wp_enqueue_scripts', function(){
 	wp_enqueue_style('vertical-scroll-recent-comments-style', plugins_url('vertical-scroll-recent-comment.css', __FILE__), [], '11.8-20200504');
+	wp_enqueue_script('vertical-scroll-recent-comments-script', plugins_url('vertical-scroll-recent-comments.js', __FILE__), [], '11.8-20200504');
 }, PHP_INT_MAX);
