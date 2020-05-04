@@ -225,9 +225,9 @@ function vsrc_admin_options()
 			<p><?php _e('Please select your disply option.' , 'vertical-scroll-recent-comments'); ?></p>
 			
 			<label for="vsrc_speed"><strong><?php _e('Scrolling speed', 'vertical-scroll-recent-comments'); ?></strong></label>
-			<?php _e( 'Slow', 'vertical-scroll-recent-comments' ); ?> 
-			<input name="vsrc_speed" type="range" value="<?php echo $vsrc_speed; ?>"  id="vsrc_speed" min="1" max="10" /> 
 			<?php _e( 'Fast', 'vertical-scroll-recent-comments' ); ?> 
+			<input name="vsrc_speed" type="range" value="<?php echo $vsrc_speed; ?>" id="vsrc_speed" min="-4" max="6" /> 
+			<?php _e( 'Slow', 'vertical-scroll-recent-comments' ); ?> 
 			<p><?php _e('Select how fast you want the to scroll the items.', 'vertical-scroll-recent-comments'); ?></p>
 			
 			<label for="vsrc_waitseconds"><strong><?php _e( 'Seconds to wait', 'vertical-scroll-recent-comments' ); ?></strong></label>
