@@ -59,13 +59,10 @@ function vsrc()
 		<script type="text/javascript">
 		var vsrc_array	= new Array();
 		var vsrc_obj	= '';
-		var vsrc_scrollPos 	= '';
-		var vsrc_numScrolls	= '';
 		var vsrc_heightOfElm = '<?php echo $dis_num_height; ?>';
 		var vsrc_numberOfElm = '<?php echo $vsrc_count; ?>';
 		var vsrc_speed 		= '<?php echo $vsrc_speed; ?>';
 		var vsrc_waitseconds = '<?php echo $vsrc_waitseconds; ?>';
-		var vsrc_scrollOn 	= 'true';
 		function vsrc_createscroll() 
 		{
 			vsrc_array = <?php echo json_encode($vsrc_comments) ?>;

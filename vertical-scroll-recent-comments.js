@@ -16,7 +16,11 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */	
- 
+
+var vsrc_scrollOn 	= 'true';
+var vsrc_numScrolls	= '';
+var vsrc_scrollPos 	= '';
+
 function vsrc_scroll() {
 	clearTimeout(window.vsrc_scroll_timer);
 	vsrc_obj.scrollTop = vsrc_obj.scrollTop + 1;
