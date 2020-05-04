@@ -17,33 +17,20 @@ Domain Path: /languages
 function vsrc() 
 {
 	global $wpdb;
-	$num_user = get_option('vsrc_select_num_user');
-	$dis_num_user = get_option('vsrc_dis_num_user');
-	$dis_num_height = get_option('vsrc_dis_num_height');
+	$num_user 			= get_option('vsrc_select_num_user');
+	$dis_num_user 		= get_option('vsrc_dis_num_user');
+	$dis_num_height 	= get_option('vsrc_dis_num_height');
 	$vsrc_select_character = get_option('vsrc_select_character');
-	$vsrc_dis_type = get_option('vsrc_dis_image_or_name');
+	$vsrc_dis_type 		= get_option('vsrc_dis_image_or_name');
+	$vsrc_speed 		= get_option('vsrc_speed');
+	$vsrc_waitseconds 	= get_option('vsrc_waitseconds');
 	
-	$vsrc_speed = get_option('vsrc_speed');
-	$vsrc_waitseconds = get_option('vsrc_waitseconds');
-	if(!is_numeric($vsrc_speed)) { $vsrc_speed = 2; }
-	if(!is_numeric($vsrc_waitseconds)) { $vsrc_waitseconds = 2; }
-	
-	if(!is_numeric($num_user))
-	{
-		$num_user = 5;
-	} 
-	if(!is_numeric($dis_num_height))
-	{
-		$dis_num_height = 30;
-	}
-	if(!is_numeric($dis_num_user))
-	{
-		$dis_num_user = 5;
-	}
-	if(!is_numeric($vsrc_select_character))
-	{
-		$vsrc_select_character = 75;
-	}
+	if(!is_numeric($vsrc_speed)) $vsrc_speed = 2;
+	if(!is_numeric($vsrc_waitseconds)) $vsrc_waitseconds = 2;
+	if(!is_numeric($num_user)) $num_user = 5;
+	if(!is_numeric($dis_num_height)) $dis_num_height = 30;
+	if(!is_numeric($dis_num_user)) $dis_num_user = 5;
+	if(!is_numeric($vsrc_select_character)) $vsrc_select_character = 75;
 
 	$vsrc_data = $wpdb->get_results("SELECT * from $wpdb->comments WHERE comment_approved= '1' and comment_type<>'pingback' ORDER BY comment_date DESC LIMIT 0, $num_user");
 
