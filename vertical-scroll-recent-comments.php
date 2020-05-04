@@ -36,30 +36,23 @@ function vsrc()
 		$wpdb->prepare("SELECT * from {$wpdb->comments} WHERE comment_approved='1' and comment_type<>'pingback' ORDER BY comment_date DESC LIMIT 0, %d", $num_user));
 
 	$vsrc_comments = [];
-	if ( ! empty($vsrc_data) ) 
+	if ( ! empty($vsrc_data) )
 	{
-		foreach ( $vsrc_data as $vsrc_data ) 
+		foreach ( $vsrc_data as $vsrc_data )
 		{
 			$avatar = get_avatar( $vsrc_data->comment_author_email, 30 );
 			$vsrc_comments[] = vsrc_format_comment($vsrc_data, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
 		}
 
 		$vsrc_count = count($vsrc_comments);
-		$dis_num_height = $dis_num_height + 4;
 		if($vsrc_count >= $dis_num_user)
 		{
 			$vsrc_count = $dis_num_user;
-			$vsrc_height = ($dis_num_height * $dis_num_user);
 		}
-		else
-		{
-			$vsrc_count = $vsrc_count;
-			$vsrc_height = ($vsrc_count*$dis_num_height);
-		}
-		$vsrc_height1 = $dis_num_height."px";
+		$vsrc_height = ($vsrc_count * ($dis_num_height + 4)) . "px"
 		?>	
 		<div class="vsrc-holder-parent">
-			<div style="height: <?php echo $vsrc_height1; ?>;" id="vsrc_Holder">
+			<div style="height: <?php echo $vsrc_height; ?>;" id="vsrc_Holder">
 				<?php echo implode("", $vsrc_comments); ?>
 			</div>
 		</div>
