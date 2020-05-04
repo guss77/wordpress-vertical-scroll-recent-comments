@@ -74,9 +74,6 @@ function vsrc()
 			vsrc_content();
 		}
 		</script>
-		<script type="text/javascript">
-		vsrc_createscroll();
-		</script>
 		<?php
 	}
 	else
@@ -308,5 +305,5 @@ register_deactivation_hook(__FILE__, 'vsrc_deactivation');
 
 add_action('wp_enqueue_scripts', function(){
 	wp_enqueue_style('vertical-scroll-recent-comments-style', plugins_url('vertical-scroll-recent-comment.css', __FILE__), [], '11.8-20200504');
-	wp_enqueue_script('vertical-scroll-recent-comments-script', plugins_url('vertical-scroll-recent-comments.js', __FILE__), [], '11.8-20200504');
+	wp_enqueue_script('vertical-scroll-recent-comments-script', plugins_url('vertical-scroll-recent-comments.js', __FILE__), [ 'jquery' ], '11.8-20200504');
 }, PHP_INT_MAX);

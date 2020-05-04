@@ -68,3 +68,7 @@ function vsrc_content() {
 	// start scrolling
 	setTimeout("vsrc_scroll();", vsrc_waitseconds * 2000);
 }
+
+jQuery(document).ready(function($) {
+	typeof vsrc_createscroll == 'function' && vsrc_createscroll();
+});
