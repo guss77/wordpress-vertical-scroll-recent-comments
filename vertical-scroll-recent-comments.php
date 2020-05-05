@@ -57,17 +57,17 @@ function vsrc()
 			</div>
 		</div>
 		<script type="text/javascript">
-		var vsrc_array	= new Array();
-		var vsrc_obj	= '';
-		var vsrc_heightOfElm = '<?php echo $dis_num_height; ?>';
-		var vsrc_numberOfElm = '<?php echo $vsrc_count; ?>';
-		var vsrc_speed 		= '<?php echo $vsrc_speed; ?>';
-		var vsrc_waitseconds = '<?php echo $vsrc_waitseconds; ?>';
 		function vsrc_createscroll() 
 		{
-			vsrc_array = <?php echo json_encode($vsrc_comments) ?>;
-			vsrc_obj = document.getElementById('vsrc_Holder');
-			vsrc_content();
+			vsrc_array = ;
+			vsrc_content({
+				container: document.getElementById('vsrc_Holder'),
+				elmHeight: <?php echo $dis_num_height ?>,
+				elmCount: <?php echo $vsrc_count ?>,
+				spee: <?php echo $vsrc_speed ?>,
+				waitSec: <?php echo $vsrc_waitseconds ?>,
+				comments: <?php echo json_encode($vsrc_comments) ?>
+			});
 		}
 		</script>
 		<?php
