@@ -59,7 +59,6 @@ function vsrc()
 		<script type="text/javascript">
 		function vsrc_createscroll() 
 		{
-			vsrc_array = ;
 			vsrc_content({
 				container: document.getElementById('vsrc_Holder'),
 				elmHeight: <?php echo $dis_num_height ?>,
