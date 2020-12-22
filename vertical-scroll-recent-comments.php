@@ -5,7 +5,7 @@ Description: Vertical scroll recent comments wordpress plugin will scroll the re
 Author: Gopi Ramasamy
 Author URI: http://www.gopiplus.com/work/2010/07/18/vertical-scroll-recent-comments/
 Plugin URI: http://www.gopiplus.com/work/2010/07/18/vertical-scroll-recent-comments/
-Version: 11.8
+Version: 11.9
 Tags: Vertical, scroll, recent, comments, comment, widget
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
