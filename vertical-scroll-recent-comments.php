@@ -5,7 +5,7 @@ Description: Vertical scroll recent comments wordpress plugin will scroll the re
 Author: Gopi Ramasamy
 Author URI: http://www.gopiplus.com/work/2010/07/18/vertical-scroll-recent-comments/
 Plugin URI: http://www.gopiplus.com/work/2010/07/18/vertical-scroll-recent-comments/
-Version: 12.0
+Version: 12.2
 Tags: Vertical, scroll, recent, comments, comment, widget
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,42 +14,57 @@ Text Domain: vertical-scroll-recent-comments
 Domain Path: /languages
 */
 
-function vsrc() 
-{
+function vsrc() {
+	echo vsrc_shortcode([
+		"limit" => get_option('vsrc_select_num_user'),
+		"displaycount" => get_option('vsrc_dis_num_user'),
+		"height" => get_option('vsrc_dis_num_height'),
+		"character" => get_option('vsrc_select_character'),
+		"speed" => get_option('vsrc_speed'),
+		"wait" => get_option('vsrc_waitseconds'),
+		"display" => get_option('vsrc_dis_image_or_name'),
+	]);
+}
+
+function vsrc_shortcode($atts) {
 	global $wpdb;
-	$num_user 			= get_option('vsrc_select_num_user');
-	$dis_num_user 		= get_option('vsrc_dis_num_user');
-	$dis_num_height 	= get_option('vsrc_dis_num_height');
-	$vsrc_select_character = get_option('vsrc_select_character');
-	$vsrc_dis_type 		= get_option('vsrc_dis_image_or_name');
-	$vsrc_speed 		= get_option('vsrc_speed');
-	$vsrc_waitseconds 	= get_option('vsrc_waitseconds');
+	//[vertical-scroll-recent-comments limit="10" displaycount="5" height="60" character="50" speed="2" wait="2" display="NAME"]
+	if ( ! is_array( $atts ) ) {
+		return '';
+	}
+	$num_user = (int)$atts['limit'] ?: 10;
+	$dis_num_user = (int)$atts['displaycount'] ?: 5;
+	$dis_num_height = (int)$atts['height'] ?: 60;
+	$vsrc_select_character = (int)$atts['character'] ?:50;
+	$vsrc_speed = (int)$atts['speed'] ?: 2;
+	$vsrc_waitseconds = (int)$atts['wait'] ?: 4;
+	$vsrc_dis_type = $atts['display'] ?: 'NAME';
 	
-	if(!is_numeric($vsrc_speed)) $vsrc_speed = 2;
-	if(!is_numeric($vsrc_waitseconds)) $vsrc_waitseconds = 4;
-	if(!is_numeric($num_user)) $num_user = 5;
-	if(!is_numeric($dis_num_height)) $dis_num_height = 30;
-	if(!is_numeric($dis_num_user)) $dis_num_user = 5;
-	if(!is_numeric($vsrc_select_character)) $vsrc_select_character = 75;
+	ob_start();
+	?>
+<style type="text/css">';
+.vsrc-regimag img {
+float: left;
+border: 1px solid #CCCCCC;
+vertical-align:bottom;
+padding: 3px;
+margin-right: 2px;
+};
+</style>
+	<?php
 
 	$vsrc_data = $wpdb->get_results(
 		$wpdb->prepare("SELECT * from {$wpdb->comments} WHERE comment_approved='1' and comment_type<>'pingback' ORDER BY comment_date DESC LIMIT 0, %d", $num_user));
 
 	$vsrc_comments = [];
-	if ( ! empty($vsrc_data) )
-	{
-		foreach ( $vsrc_data as $vsrc_data )
-		{
-			$avatar = get_avatar( $vsrc_data->comment_author_email, 30 );
-			$vsrc_comments[] = vsrc_format_comment($vsrc_data, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
+	if ( ! empty($vsrc_data) ) {
+		foreach ( $vsrc_datum as $vsrc_data ) {
+			$avatar = get_avatar( $vsrc_datum->comment_author_email, 30 );
+			$vsrc_comments[] = vsrc_format_comment($vsrc_datum, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
 		}
 
-		$vsrc_count = count($vsrc_comments);
-		if($vsrc_count >= $dis_num_user)
-		{
-			$vsrc_count = $dis_num_user;
-		}
-		$vsrc_height = ($vsrc_count * ($dis_num_height + 4)) . "px"
+		$vsrc_count = min($dis_num_user, count($vsrc_comments));
+		$vsrc_height = ($vsrc_count * $dis_num_height) . "px"
 		?>	
 		<div class="vsrc-holder-parent">
 			<div style="height: <?php echo $vsrc_height; ?>;" id="vsrc_Holder">
@@ -63,18 +78,18 @@ function vsrc()
 				container: document.getElementById('vsrc_Holder'),
 				elmHeight: <?php echo $dis_num_height ?>,
 				elmCount: <?php echo $vsrc_count ?>,
-				spee: <?php echo $vsrc_speed ?>,
+				speed: <?php echo $vsrc_speed ?>,
 				waitSec: <?php echo $vsrc_waitseconds ?>,
 				comments: <?php echo json_encode($vsrc_comments) ?>
 			});
 		}
 		</script>
 		<?php
-	}
-	else
-	{
+	} else {
 		?><div class="vsrc-holder-parent"><?php _e('No data available!', 'vertical-scroll-recent-comments')?></div><?php
 	}
+	
+	return ob_get_clean();
 }
 
 function vsrc_clean_title($vsrc_post_title, $maxlength) {
@@ -95,7 +110,7 @@ function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height,
 	$comment_link = get_permalink($comment->comment_post_ID) . "#comment-". $comment->comment_ID;
 	ob_start();
 	?>
-	<div class="vsrc_div" style="height:<?php echo $dis_num_height?>px;">
+	<div class="vsrc_div" style="height:<?php echo $dis_num_height?>px;padding:2px 0px 2px 0px;">
 		<?php if ($vsrc_dis_type == 'NAME'): ?>
 		<span><?php echo $comment->comment_author?>: </span>
 		<?php elseif ($vsrc_dis_type == 'IMAGE'): ?>
@@ -107,8 +122,7 @@ function vsrc_format_comment($comment, $avatar, $vsrc_dis_type, $dis_num_height,
 	return trim(apply_filters('vsrc_format_comment', ob_get_clean(), $comment, $avatar, $vsrc_dis_type, $dis_num_height, $maxlength));
 }
 
-function vsrc_install() 
-{
+function vsrc_install() {
 	add_option('vsrc_title', "Recent Comments");
 	add_option('vsrc_select_num_user', "10");
 	add_option('vsrc_dis_num_user', "5");
@@ -119,8 +133,7 @@ function vsrc_install()
 	add_option('vsrc_waitseconds', "4");
 }
 
-function vsrc_control() 
-{
+function vsrc_control() {
 	echo '<p><b>';
 	_e('Vertical scroll recent comments', 'vertical-scroll-recent-comments');
 	echo '.</b> ';
@@ -128,8 +141,7 @@ function vsrc_control()
 	?> <a target="_blank" href="http://www.gopiplus.com/work/2010/07/18/vertical-scroll-recent-post/"><?php _e('click here', 'vertical-scroll-recent-comments'); ?></a></p><?php
 }
 
-function vsrc_admin_options()
-{
+function vsrc_admin_options() {
 	?>
 	<div class="wrap">
 	  <div class="form-wrap">
@@ -248,8 +260,7 @@ function vsrc_admin_options()
 	<?php
 }
 
-function vsrc_widget($args) 
-{
+function vsrc_widget($args) {
 	extract($args);
 	echo $before_widget . $before_title;
 	echo get_option('vsrc_title');
@@ -258,8 +269,7 @@ function vsrc_widget($args)
 	echo $after_widget;
 }
 
-function vsrc_init()
-{
+function vsrc_init() {
 	if(function_exists('wp_register_sidebar_widget')) 
 	{
 		wp_register_sidebar_widget('vertical-scroll-recent-comments', __('Vertical scroll recent comments', 'vertical-scroll-recent-comments'), 'vsrc_widget');
@@ -272,27 +282,24 @@ function vsrc_init()
 	}
 }
 
-function vsrc_add_to_menu()
-{
+function vsrc_add_to_menu() {
 	add_options_page( __('Vertical scroll recent comments', 'vertical-scroll-recent-comments'), 
 			__('Vertical scroll recent comments', 'vertical-scroll-recent-comments'), 'manage_options', __FILE__, 'vsrc_admin_options' );
 }
 
-if (is_admin())
-{
+if (is_admin()) {
 	add_action('admin_menu', 'vsrc_add_to_menu');
 }
 
-function vsrc_deactivation()
-{
+function vsrc_deactivation() {
 	// No action required.
 }
 
-function vsrc_textdomain()
-{
-	  load_plugin_textdomain( 'vertical-scroll-recent-comments', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+function vsrc_textdomain() {
+	load_plugin_textdomain( 'vertical-scroll-recent-comments', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 
+add_shortcode('vertical-scroll-recent-comments', 'vsrc_shortcode');
 add_action('plugins_loaded', 'vsrc_textdomain');
 add_action("plugins_loaded", "vsrc_init");
 register_activation_hook(__FILE__, 'vsrc_install');
