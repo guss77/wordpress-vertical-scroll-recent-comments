@@ -5,7 +5,7 @@ Description: Vertical scroll recent comments wordpress plugin will scroll the re
 Author: Gopi Ramasamy
 Author URI: http://www.gopiplus.com/work/2010/07/18/vertical-scroll-recent-comments/
 Plugin URI: http://www.gopiplus.com/work/2010/07/18/vertical-scroll-recent-comments/
-Version: 12.0
+Version: 12.2
 Tags: Vertical, scroll, recent, comments, comment, widget
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -14,44 +14,59 @@ Text Domain: vertical-scroll-recent-comments
 Domain Path: /languages
 */
 
-function vsrc() 
+function vsrc()
 {
-	global $wpdb;
-	?>
-    <style type="text/css">
-	.vsrc-regimag img { 
-	float: left ;
-	border: 1px solid #CCCCCC ;
-	vertical-align:bottom; 
-	padding: 3px ;
-	margin-right: 2px;
-	};
-    </style>
-    <?php
-	$num_user = get_option('vsrc_select_num_user');
-	$dis_num_user = get_option('vsrc_dis_num_user');
-	$dis_num_height = get_option('vsrc_dis_num_height');
-	$vsrc_select_character = get_option('vsrc_select_character');
+	$atts = array();
+	$atts["limit"] = get_option('vsrc_select_num_user');
+	$atts["displaycount"] = get_option('vsrc_dis_num_user');
+	$atts["height"] = get_option('vsrc_dis_num_height');
+	$atts["character"] = get_option('vsrc_select_character');
+	$atts["speed"] = get_option('vsrc_speed');
+	$atts["wait"] = get_option('vsrc_waitseconds');
+	$atts["display"] = get_option('vsrc_dis_image_or_name');
+	echo vsrc_shortcode($atts);
+}
+
+function vsrc_shortcode($atts)
+{
+	//[vertical-scroll-recent-comments limit="10" displaycount="5" height="60" character="50" speed="2" wait="2" display="NAME"]
+	if ( ! is_array( $atts ) ) {
+		return '';
+	}
+	$num_user = isset($atts['limit']) ? $atts['limit'] : '10';
+	$dis_num_user = isset($atts['displaycount']) ? $atts['displaycount'] : '5';
+	$dis_num_height = isset($atts['height']) ? $atts['height'] : '60';
+	$vsrc_select_character = isset($atts['character']) ? $atts['character'] : '50';
+	$vsrc_speed = isset($atts['speed']) ? $atts['speed'] : '2';
+	$vsrc_waitseconds = isset($atts['wait']) ? $atts['wait'] : '2';
+	$vsrc_dis_image_or_name = isset($atts['display']) ? $atts['display'] : 'NAME';
 	
-	$vsrc_speed = get_option('vsrc_speed');
-	$vsrc_waitseconds = get_option('vsrc_waitseconds');
+	global $wpdb;
+	
+	$vsrc = "";
+    $vsrc .= '<style type="text/css">';
+	$vsrc .= '.vsrc-regimag img { ';
+	$vsrc .= 'float: left; ';
+	$vsrc .= 'border: 1px solid #CCCCCC; ';
+	$vsrc .= 'vertical-align:bottom; ';
+	$vsrc .= 'padding: 3px; ';
+	$vsrc .= 'margin-right: 2px; ';
+	$vsrc .= '}; ';
+    $vsrc .= '</style>';
+	
 	if(!is_numeric($vsrc_speed)) { $vsrc_speed = 2; }
 	if(!is_numeric($vsrc_waitseconds)) { $vsrc_waitseconds = 2; }
 	
-	if(!is_numeric($num_user))
-	{
+	if(!is_numeric($num_user)) {
 		$num_user = 5;
 	} 
-	if(!is_numeric($dis_num_height))
-	{
+	if(!is_numeric($dis_num_height)) {
 		$dis_num_height = 30;
 	}
-	if(!is_numeric($dis_num_user))
-	{
+	if(!is_numeric($dis_num_user)) {
 		$dis_num_user = 5;
 	}
-	if(!is_numeric($vsrc_select_character))
-	{
+	if(!is_numeric($vsrc_select_character)) {
 		$vsrc_select_character = 75;
 	}
 
@@ -64,7 +79,6 @@ function vsrc()
 	if ( ! empty($vsrc_data) ) 
 	{
 		$vsrc_count = 0;
-
 		foreach ( $vsrc_data as $vsrc_data ) 
 		{
 			$vsrc_post_title = $vsrc_data->comment_content 	;
@@ -75,17 +89,17 @@ function vsrc()
 			$avatar = get_avatar( $vsrc_data->comment_author_email, 30 );
 			$dis_height = $dis_num_height."px";
 			$vsrc_html = $vsrc_html . "<div class='vsrc_div' style='height:$dis_height;padding:2px 0px 2px 0px;'>"; 
-			if(get_option('vsrc_dis_image_or_name') == "NAME" )
-			{
+			
+			if($vsrc_dis_image_or_name == "NAME" ) {
 				$vsrc_html = $vsrc_html . "<span>$vsrc_comment_author: </span>";
 				$vsrc_js_html = "<span>$vsrc_comment_author: </span>";
 			}
-			elseif(get_option('vsrc_dis_image_or_name') == "IMAGE")
-			{
+			elseif($vsrc_dis_image_or_name == "IMAGE") {
 				$vsrc_html = $vsrc_html . "<span class='vsrc-regimag'>$avatar</span>";
 				$avatar = esc_sql($avatar);
 				$vsrc_js_html = "<span class=\'vsrc-regimag\'>$avatar</span>";
 			}
+			
 			$vsrc_html = $vsrc_html . "<span>$vsrc_post_title...</span>";
 			$vsrc_html = $vsrc_html . "</div>";
 			$vsrc_post_title = esc_sql(trim($vsrc_post_title));
@@ -96,52 +110,52 @@ function vsrc()
 			$vsrc_count++;
 		}
 
-		$dis_num_height = $dis_num_height + 4;
-		if($vsrc_count >= $dis_num_user)
-		{
+		//$dis_num_height = $dis_num_height + 4;
+		$dis_num_height = $dis_num_height;
+		if($vsrc_count >= $dis_num_user) {
 			$vsrc_count = $dis_num_user;
 			$vsrc_height = ($dis_num_height * $dis_num_user);
 		}
-		else
-		{
+		else {
 			$vsrc_count = $vsrc_count;
 			$vsrc_height = ($vsrc_count*$dis_num_height);
 		}
 		$vsrc_height1 = $dis_num_height."px";
-		?>	
-		<div style="padding-top:8px;padding-bottom:8px;">
-			<div style="text-align:left;vertical-align:middle;text-decoration: none;overflow: hidden; position: relative; margin-left: 1px; height: <?php echo $vsrc_height1; ?>;" id="vsrc_Holder">
-				<?php echo $vsrc_html; ?>
-			</div>
-		</div>
-		<script type="text/javascript" src="<?php echo plugins_url(); ?>/vertical-scroll-recent-comments/vertical-scroll-recent-comments.js"></script>
-		<script type="text/javascript">
-		var vsrc_array	= new Array();
-		var vsrc_obj	= '';
-		var vsrc_scrollPos 	= '';
-		var vsrc_numScrolls	= '';
-		var vsrc_heightOfElm = '<?php echo $dis_num_height; ?>';
-		var vsrc_numberOfElm = '<?php echo $vsrc_count; ?>';
-		var vsrc_speed 		= '<?php echo $vsrc_speed; ?>';
-        var vsrc_waitseconds = '<?php echo $vsrc_waitseconds; ?>';
-		var vsrc_scrollOn 	= 'true';
-		function vsrc_createscroll() 
-		{
-			<?php echo $vsrc_x; ?>
-			vsrc_obj = document.getElementById('vsrc_Holder');
-			vsrc_obj.style.height = (vsrc_numberOfElm * vsrc_heightOfElm) + 'px';
-			vsrc_content();
-		}
-		</script>
-		<script type="text/javascript">
-		vsrc_createscroll();
-		</script>
-		<?php
+		
+		$vsrc .= '<div style="padding-top:8px;padding-bottom:8px;">';
+			$vsrc .= '<div style="text-align:left;vertical-align:middle;text-decoration: none;overflow: hidden; position: relative; margin-left: 1px; height: ' . $vsrc_height1 . ';" id="vsrc_Holder">';
+				$vsrc .= $vsrc_html;
+			$vsrc .= '</div>';
+		$vsrc .= '</div>';
+		$vsrc .= '<script type="text/javascript" src="' . plugins_url() . '/vertical-scroll-recent-comments/vertical-scroll-recent-comments.js"></script>';
+		$vsrc .= '<script type="text/javascript">';
+		$vsrc .= 'var vsrc_array	= new Array();';
+		$vsrc .= "var vsrc_obj = '';";
+		$vsrc .= "var vsrc_scrollPos = '';";
+		$vsrc .= "var vsrc_numScrolls = '';";
+		$vsrc .= "var vsrc_heightOfElm = '" . $dis_num_height . "';";
+		$vsrc .= "var vsrc_numberOfElm = '" . $vsrc_count . "';";
+		$vsrc .= "var vsrc_speed = '" . $vsrc_speed . "';";
+        $vsrc .= "var vsrc_waitseconds = '" . $vsrc_waitseconds . "';";
+		$vsrc .= "var vsrc_scrollOn = 'true';";
+		$vsrc .= 'function vsrc_createscroll()';
+		$vsrc .= '{';
+			$vsrc .= $vsrc_x;
+			$vsrc .= "vsrc_obj = document.getElementById('vsrc_Holder');";
+			$vsrc .= "vsrc_obj.style.height = (vsrc_numberOfElm * vsrc_heightOfElm) + 'px';";
+			$vsrc .= 'vsrc_content();';
+		$vsrc .= '}';
+		$vsrc .= '</script>';
+		$vsrc .= '<script type="text/javascript">';
+		$vsrc .= 'vsrc_createscroll();';
+		$vsrc .= '</script>';
 	}
 	else
 	{
-		echo "<div style='padding-bottom:5px;padding-top:5px;'>No data available!</div>";
+		$vsrc .= "No data available!";
 	}
+	
+	return $vsrc;
 }
 
 function vsrc_install() 
@@ -330,6 +344,7 @@ function vsrc_textdomain()
 	  load_plugin_textdomain( 'vertical-scroll-recent-comments', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 }
 
+add_shortcode('vertical-scroll-recent-comments', 'vsrc_shortcode');
 add_action('plugins_loaded', 'vsrc_textdomain');
 add_action("plugins_loaded", "vsrc_init");
 register_activation_hook(__FILE__, 'vsrc_install');
