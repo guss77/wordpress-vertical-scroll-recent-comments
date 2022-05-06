@@ -16,55 +16,67 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */	
- 
+
 function vsrc_scroll() {
-	vsrc_obj.scrollTop = vsrc_obj.scrollTop + 1;
-	vsrc_scrollPos++;
-	if ((vsrc_scrollPos%vsrc_heightOfElm) == 0) {
-		vsrc_numScrolls--;
-		if (vsrc_numScrolls == 0) {
-			vsrc_obj.scrollTop = '0';
+	clearTimeout(window.vsrc_config.timer);
+	var container = window.vsrc_config.container;
+	container.scrollTop = container.scrollTop + 1;
+	window.vsrc_config.scrollPos++;
+	if ((window.vsrc_config.scrollPos % window.vsrc_config.elmHeight) == 0) {
+		window.vsrc_config.numScrolls--;
+		if (window.vsrc_config.numScrolls == 0) {
+			container.scrollTop = '0';
 			vsrc_content();
 		} else {
-			if (vsrc_scrollOn == 'true') {
+			if (window.vsrc_config.scrollOn) {
 				vsrc_content();
 			}
 		}
 	} else {
-		var speed = 60 - ( vsrc_speed * 10 );
-		setTimeout("vsrc_scroll();", speed);
+		var speed = 60 - ( window.vsrc_config.speed * 10 );
+		window.vsrc_config.timer = setTimeout(vsrc_scroll, speed);
 	}
 }
 
-var vsrc_Num = 0;
 /*
 Creates amount to show + 1 for the scrolling ability to work
 scrollTop is set to top position after each creation
 Otherwise the scrolling cannot happen
 */
-function vsrc_content() {
-	var tmp_vsrc = '';
+function vsrc_content(config) {
+	if (config) {
+		window.vsrc_config = config;
+		window.vsrc_config.scrollPos = 0;
+		window.vsrc_config.scrollOn = true;
+		window.vsrc_config.displayNum = 0;
+	}
+	var tmp_vsrc = '',
+		container = window.vsrc_config.container,
+		list = window.vsrc_config.comments;
 
-	w_vsrc = vsrc_Num - parseInt(vsrc_numberOfElm);
+	w_vsrc = window.vsrc_config.displayNum - window.vsrc_config.elmCount;
 	if (w_vsrc < 0) {
 		w_vsrc = 0;
 	} else {
-		w_vsrc = w_vsrc%vsrc_array.length;
+		w_vsrc = w_vsrc % list.length;
 	}
 	
 	// Show amount of vsrru
-	var elementsTmp_vsrc = parseInt(vsrc_numberOfElm) + 1;
+	var elementsTmp_vsrc = window.vsrc_config.elmCount + 1;
 	for (i_vsrc = 0; i_vsrc < elementsTmp_vsrc; i_vsrc++) {
 		
-		tmp_vsrc += vsrc_array[w_vsrc%vsrc_array.length];
+		tmp_vsrc += list[w_vsrc % list.length];
 		w_vsrc++;
 	}
 
-	vsrc_obj.innerHTML 	= tmp_vsrc;
-	
-	vsrc_Num 			= w_vsrc;
-	vsrc_numScrolls 	= vsrc_array.length;
-	vsrc_obj.scrollTop 	= '0';
+	container.innerHTML           = tmp_vsrc;
+	container.scrollTop          = '0';
+	window.vsrc_config.displayNum = w_vsrc;
+	window.vsrc_config.numScrolls = list.length;
 	// start scrolling
-	setTimeout("vsrc_scroll();", vsrc_waitseconds * 2000);
+	window.vsrc_config.timer = setTimeout(vsrc_scroll, window.vsrc_config.waitSec * 1000, );
 }
+
+jQuery(document).ready(function($) {
+	typeof vsrc_createscroll == 'function' && vsrc_createscroll();
+});
