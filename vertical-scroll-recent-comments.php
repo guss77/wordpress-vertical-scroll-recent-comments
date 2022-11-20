@@ -58,7 +58,7 @@ margin-right: 2px;
 
 	$vsrc_comments = [];
 	if ( ! empty($vsrc_data) ) {
-		foreach ( $vsrc_datum as $vsrc_data ) {
+		foreach ( $vsrc_data as $vsrc_datum ) {
 			$avatar = get_avatar( $vsrc_datum->comment_author_email, 30 );
 			$vsrc_comments[] = vsrc_format_comment($vsrc_datum, $avatar, $vsrc_dis_type, $dis_num_height, $vsrc_select_character);
 		}
